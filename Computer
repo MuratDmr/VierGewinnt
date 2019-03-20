@@ -1,0 +1,23 @@
+
+public class CPU extends Spieler {
+	
+	//Creates an instance of RandomPlayer and sets the PlayerName to Computer and
+	 //the current Field
+	 
+	public CPU(Board board) {
+		
+		this.playerName = "Computer";
+		
+		this.board = board;
+	}
+
+
+	public void turn() {
+		
+
+	}
+
+	
+	
+
+}
