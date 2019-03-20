@@ -1,0 +1,27 @@
+
+public class Mensch extends Spieler {
+
+	// Creates a new instance of HumanPlayer and sets the playerName to 'Human' and
+	// sets the current field
+
+	public Mensch(Board board) {
+		this.playerName = "Mensch";
+		this.board = board;
+	}
+
+	public void turn(int Spalte, Board Spiel) {
+		for (int i=5; i>=0; i--) {
+			
+			if(Spiel.Felder[i][Spalte] != "-") {
+				
+			}
+			else {
+				Spiel.Feld[i][Spalte] = this.Zeichen ;
+				break;
+		}
+		
+		
+	}
+
+}
+}
