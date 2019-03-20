@@ -1,0 +1,25 @@
+
+public abstract class Spieler {
+
+	//The name of the player
+	 
+	protected String playerName;
+	
+	//The Board to Play on
+	 
+	protected Board board;
+	
+	// Returns the name of the player
+	  
+	 //return The PlayerName
+	
+	public String getPlayerName() {
+		return playerName;
+	}
+	
+	//The Player makes a move 
+
+	public abstract void turn();
+	
+	
+	}
