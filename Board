@@ -1,0 +1,218 @@
+public class Board {
+
+	public String[][] Felder = new String[6][7];
+
+	public void Board() {
+		for (int i = 0; i < 6; i++) {
+			for (int k = 0; k < 7; k++) {
+				this.Felder[i][k] = "-";
+			}
+		}
+		for (int i = 0; i < 6; i++) {
+			for (int k = 0; k < 7; k++) {
+				System.out.print(this.Felder[i][k]);
+			}
+			System.out.println();
+		}
+	}
+
+	public boolean checkFelder(int spalte) {
+		// vom letzten eingeworfenen Stein aus
+		// check wagrecht (+)
+		// check senkrecht(+)
+		// check diagonal rechts((+))
+		// check diagonal links(+)
+		int sp2 = 8;
+		int zeile = 0;
+		while (sp2 > -5) {
+			if (sp2 >= 0 && sp2 <= 5) {
+				if ((this.Felder[zeile][spalte].equals("-"))) {
+					zeile++;
+				}
+			}
+			sp2--;
+		}
+		String zeichen = this.Felder[zeile][spalte];
+
+		// System.out.println(""+zeichen);
+		if (checkWaag(spalte, zeile, zeichen) >= 4) {
+			return true;
+		} else if (checkSenk(spalte, zeile, zeichen) >= 4) {
+			return true;
+		} else if (checkDiagoLinksZuRechts(zeichen) >= 4) {
+			return true;
+		} else if (checkDiagoUntenRechtszuLinks(zeichen) >= 4) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+	public int checkWaag(int spalte, int zeile, String zeichen)
+	{
+		int Gewinnbedingung = 0;
+		int index1 = zeile;
+		int index2 = spalte;
+
+
+		for(int i = 0; i<7; i++)
+		{
+			if(this.Felder[index1][i].equals(zeichen))
+			{
+				Gewinnbedingung++;
+				if(Gewinnbedingung >= 4)
+				{
+					return Gewinnbedingung;
+				}
+			}
+			else
+			{
+				Gewinnbedingung = 0;
+			}
+		}
+		return Gewinnbedingung;
+	}
+	
+	public int checkSenk(int spalte, int zeile, String zeichen)
+	{
+		int Gewinnbedingung = 0;
+		for(int i = 0; i<=5; i++)
+		{
+			if(this.Felder[i][spalte].equals(zeichen))
+			{
+				Gewinnbedingung++;
+				if(Gewinnbedingung >= 4)
+				{
+					return Gewinnbedingung;
+				}
+			}
+			else
+			{
+				Gewinnbedingung = 0;
+			}
+		}
+		return Gewinnbedingung;
+	}
+	
+	public int checkDiagoLinksZuRechts(String zeichen)
+	{
+		//fehler
+		int Gewinnbedingung = 0;
+
+		for(int i = 6; i >= -6; i--)
+		{
+			for(int j = i, k = 5; j<7&&k>=0; j++, k--)
+			{
+				if((j >= 0 && j <= 6)&&(k >= 0 && k <= 5))
+				{
+					if(this.Felder[k][j].equals(zeichen))
+					{
+						Gewinnbedingung++;
+						if(Gewinnbedingung >= 4)
+						{
+							return Gewinnbedingung;
+						}
+					}
+					else
+					{
+						Gewinnbedingung = 0;
+					}
+				}
+			}
+			Gewinnbedingung = 0;
+		}
+		Gewinnbedingung = 0;
+		
+		/*
+		for(int i = 6; i >= 0; i--)
+		{
+			for(int j = 5, k = i; j<7&&k>0; j++, k--)
+			{
+				if((j >= 0 && j < 7)&&(k >= 0 && k < 6))
+				{
+					if(this.Felder[k][j].equals(zeichen))
+					{
+						WinCondition++;
+						if(WinCondition >= 4)
+						{
+							return WinCondition;
+						}
+					}
+					else
+					{
+						WinCondition = 0;
+					}
+				}
+			}
+		}	*/
+				return Gewinnbedingung;
+	}
+	
+	public int checkDiagoUntenRechtszuLinks(String zeichen)
+	{
+		int Gewinnbedingung = 0;
+		//side checking
+		for(int i = 12; i >= 0; i--)
+		{
+			for(int j = i, k = 11; j>0&&i>0; j--, k--)
+			{
+				if((j >= 0 && j <= 6)&&(k >= 0 && k <= 5))
+				{
+					if(this.Felder[k][j].equals(zeichen))
+					{
+						Gewinnbedingung++;
+						if(Gewinnbedingung >= 4)
+						{
+							return Gewinnbedingung;
+						}
+					}
+					else
+					{
+						Gewinnbedingung = 0;
+					}
+				}
+			}
+			Gewinnbedingung = 0;
+		}
+		Gewinnbedingung = 0;
+		
+		
+		//Höhenüberprüfung 
+		//Hight Checking
+		for(int i = 12; i >= 0; i--)
+		{
+			for(int j = 11, k = i; j>0&&i>0; j--, k--)
+			{
+				if((j >= 0 && j <= 6)&&(k >= 0 && k <= 5))
+				{
+					if(this.Felder[k][j].equals(zeichen))
+					{
+						Gewinnbedingung++;
+						if(Gewinnbedingung >= 4)
+						{
+							return Gewinnbedingung;
+						}
+					}
+					else
+					{
+						Gewinnbedingung = 0;
+					}
+				}
+			}
+			Gewinnbedingung = 0;
+		}
+
+		return Gewinnbedingung;
+	}
+
+	public boolean checkBelegt(int Spalte) {
+		if (this.Felder[0][Spalte].equals("-")) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+
+}
