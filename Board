@@ -1,30 +1,60 @@
 public class Board {
-	
-	char[][] field;
-	char n = 7, m = 6; // n=horizontal(Spalte); m=vertikal(Zeilen)
-	// erstellung des Boards
 
-	public void initalizeboard() {
-		field = new char[n][m];
-		for (char a = 0; a < n; a++) {
-			for (char b = 0; b < m; b++) {
+	public String[][] Felder = new String[6][7];
+
+	public void Board() {
+		for (int i = 0; i < 6; i++) {
+			for (int k = 0; k < 7; k++) {
+				this.Felder[i][k] = "-";
 			}
+		}
+		for (int i = 0; i < 6; i++) {
+			for (int k = 0; k < 7; k++) {
+				System.out.print(this.Felder[i][k]);
+			}
+			System.out.println();
 		}
 	}
 
-	// ausgabe des boards
-	public void getfield() {
-		for (char a = 0; a < n; a++) {
-			for (char b = 0; b < m; b++) {
-				System.out.print("[" + field[a][b] + "]"); // erstellung des feldes mit syso
+	public boolean checkFelder(int spalte) {
+		// vom letzten eingeworfenen Stein aus
+		// check wagrecht (+)
+		// check senkrecht(+)
+		// check diagonal rechts((+))
+		// check diagonal links(+)
+		int sp2 = 8;
+		int zeile = 0;
+		while (sp2 > -5) {
+			if (sp2 >= 0 && sp2 <= 5) {
+				if ((this.Felder[zeile][spalte].equals("-"))) {
+					zeile++;
+				}
 			}
-			System.out.println("\n"); // Zeilenumbruch
+			sp2--;
 		}
+		String zeichen = this.Felder[zeile][spalte];
+
+		// System.out.println(""+zeichen);
+		if (checkWaag(spalte, zeile, zeichen) >= 4) {
+			return true;
+		} else if (checkSenk(spalte, zeile, zeichen) >= 4) {
+			return true;
+		} else if (checkDiagoLinksZuRechts(zeichen) >= 4) {
+			return true;
+		} else if (checkDiagoUntenRechtszuLinks(zeichen) >= 4) {
+			return true;
+		} else {
+			return false;
+		}
+
 	}
 
-	public void checkboard() {
-		if (field.length < 0)
-			new RuntimeException("Error");
+	public boolean checkBelegt(int Spalte) {
+		if (this.Felder[0][Spalte].equals("-")) {
+			return true;
+		} else {
+			return false;
+		}
 
 	}
 
