@@ -1,69 +1,413 @@
 import java.util.*;
-public class Intro {
-	//Scanner
-	Scanner objScanner= new Scanner (System.in);
-	// Do-while until an accepted input is made
-	public void startgame () {
-		//Declaration of the variables
-		String str_input;
-		boolean bol_why = true;
+
+public class Intro 
+{
+
+	public static void main(String[] args) 
+	{
 		
-		do {
-			//Game start Yes/No
-			System.out.println("Wollen Sie das Spiel starten? J/N");
-			str_input = objScanner.next();
-			//If J/j -> leave do-while
-			if(str_input.equals("J")|| str_input.equals("j"))
+		System.out.println("Wählen sie aus!");
+		System.out.println("1. Mensch vs Mensch");
+		System.out.println("2. Mensch vs Computer");
+		System.out.println("3. Computer vs Computer");
+		System.out.println("Bitte treffen Sie eine Auswahl (1-3)");
+		Scanner EingabeNamen = new Scanner(System.in);
+		Scanner Eingabe = new Scanner(System.in);
+		int Wahl = Eingabe.nextInt();
+		
+		
+		if(Wahl == 1)
+		{
+			
+			//Spieler gegen Spieler
+			Mensch Eins = new Mensch();
+			System.out.println("Name von Spieler 1?");
+			String Name = EingabeNamen.nextLine();			
+			Eins.Spielername = Name;
+			Eins.Zeichen = "X";
+			
+			System.out.println("Spieler 1 lautet: "+Eins.Spielername );
+			Mensch Zwei = new Mensch();
+			System.out.println("Name von Spieler 2?");
+			String Name2 = EingabeNamen.nextLine();			
+			Zwei.Spielername = Name2;
+			Zwei.Zeichen = "O";
+			
+			System.out.println("Spieler 2 lautet: "+Zwei.Spielername );
+			System.out.println("Spiel beginnt!");
+			Board Spielfeld = new Board();
+			Spielfeld.Board();
+			
+			
+			System.out.println("Spieler 1 X, Spieler 2 O ");
+			System.out.println("Welcher Spieler soll Anfangen ? 1 oder 2");
+			int speicher2 = Eingabe.nextInt();
+			
+			if(speicher2 == 1)
 			{
-				bol_why = true;
-				System.out.println("Spiel gestartet.");
+				while(true)
+				{			
+						//Turn Player 1
+						System.out.println(Eins.Spielername+", bitte Spalte eingeben!(1-7)");
+						
+						int speicher = (Eingabe.nextInt()-1);
+						
+						if((Spielfeld.checkBelegt(speicher)) == false)
+						{
+							while(Spielfeld.checkBelegt(speicher) == false)
+							{
+								System.out.println("Feld ist belegt, bitte Spalte eingeben!(1-7)");	
+								speicher = Eingabe.nextInt();					
+							}
+						}
+						
+						Eins.zug(speicher, Spielfeld);
+						Spielfeld.Board();
+						if(Spielfeld.checkFelder(speicher) == true)
+						{
+							System.out.println("Der Spieler mit dem Zeichen "+Eins.Zeichen+" hat Gewonnen!");
+							break;
+						}						
+						//Turn Player 2
+						System.out.println(Zwei.Spielername+", bitte Spalte eingeben!(1-7)");
+						speicher = Eingabe.nextInt();				
+						if((Spielfeld.checkBelegt(speicher)) == false)
+						{
+							while(Spielfeld.checkBelegt(speicher) == false)
+							{
+								System.out.println("Feld ist belegt, bitte Spalte eingeben!(1-7)");	
+								speicher = Eingabe.nextInt();					
+							}
+						}
+						Zwei.zug(speicher, Spielfeld);	
+						Spielfeld.Board();
+						if(Spielfeld.checkFelder(speicher) == true)
+						{
+							System.out.println("Der Spieler mit dem Zeichen "+Zwei.Zeichen+" hat Gewonnen!");
+							break;
+						}
+					
+				}
 			}
-			else
+			else if(speicher2 == 2)
 			{
-				//If N/n -> Exit Game
-				if(str_input.equals("N")|| str_input.equals("n"))
-				{
-					System.out.println("Exit.");
-					System.exit(0);
+				while(true)
+				{	
+					
+					//Turn Player 2
+					System.out.println(Zwei.Spielername+", bitte Spalte eingeben!(1-7)");
+					int speicher = Eingabe.nextInt()-1;
+					if((Spielfeld.checkBelegt(speicher)) == false)
+					{
+						while(Spielfeld.checkBelegt(speicher) == false)
+						{
+							System.out.println("Feld ist belegt, bitte Spalte eingeben!(1-7)");	
+							speicher = Eingabe.nextInt();					
+						}
+					}
+					Zwei.zug(speicher, Spielfeld);	
+					Spielfeld.Board();
+					
+					if(Spielfeld.checkFelder(speicher) == true)
+					{
+						System.out.println("Spieler 2 Hat gewonnen!");
+						break;
+					}
+					
+					System.out.println(Eins.Spielername+", bitte Spalte eingeben!(1-7)");
+					speicher = Eingabe.nextInt();
+					if((Spielfeld.checkBelegt(speicher)) == false)
+					{
+						while(Spielfeld.checkBelegt(speicher))
+						{
+							System.out.println("Feld ist belegt, bitte Spalte eingeben!(1-7)");	
+							speicher = Eingabe.nextInt();					
+						}
+					}	
+					Eins.zug(speicher, Spielfeld);
+					Spielfeld.Board();
+					if(Spielfeld.checkFelder(speicher) == true)
+					{
+						System.out.println("Spieler 1 Hat gewonnen!");
+						break;
+					}
 				}
-			//If not N/n or J/j repeat the question for the player again
-				else
+		}
+	}
+	else if(Wahl == 2)
+	{//Spieler gegen CMP
+		
+		Mensch M3 = new Mensch();
+		System.out.println("Name von Spieler 1?");
+		M3.Spielername = EingabeNamen.nextLine();
+		M3.Zeichen = "X";
+		System.out.println("Der Name lautet:"+M3.Spielername);
+		
+		CPU CMP1 = new CPU();
+		CMP1.Spielername = "Apple";
+		CMP1.Zeichen="O";
+		System.out.println("Der Computer spielt als:"+CMP1.Spielername);
+		
+		System.out.println("Spiel beginnt!");
+		Board Spielfeld2 = new Board();
+		Spielfeld2.Board();
+		
+		System.out.println("Spieler 1 X, Spieler 2 O ");
+		System.out.println("Welcher Spieler soll Anfangen ? 1 oder 2");
+		int speicher3 = Eingabe.nextInt();
+		if(speicher3==1)
+		{
+			while(true)
+			{
+				//Turn Player 1 M3
+				System.out.println(M3.Spielername+", bitte Spalte eingeben!(1-7)");
+				int speicher4 = Eingabe.nextInt();
+				
+				if((Spielfeld2.checkBelegt(speicher4)) == false)
 				{
-					System.out.println("Wrong Input!");
-					bol_why = false;
+					while(Spielfeld2.checkBelegt(speicher4) == false)
+					{
+						System.out.println("Feld ist belegt, bitte Spalte eingeben!(1-7)");	
+						speicher4 = Eingabe.nextInt();					
+					}
+				}
+				M3.zug(speicher4, Spielfeld2);
+				Spielfeld2.Board();
+				if(Spielfeld2.checkFelder(speicher4) == true)
+				{
+					System.out.println("Der Spieler mit dem Zeichen "+M3.Zeichen+" hat Gewonnen!");
+					break;
+				}
+				
+				System.out.println(CMP1.Spielername+" ist am Zug");
+				int zufall = (int)(Math.random()*10);
+				if(zufall > 6)
+				{
+					zufall-= 4;
+				}
+				
+				if((Spielfeld2.checkBelegt(zufall)) == false)
+				{
+					while(Spielfeld2.checkBelegt(zufall) == false)
+					{
+						System.out.println("Feld ist belegt, bitte Spalte eingeben!");	
+						zufall = (int)(Math.random()*10);	
+						if(zufall > 6)
+						{
+							zufall-= 4;
+						}
+					}
+				}
+				
+				CMP1.zug(zufall, Spielfeld2);
+				Spielfeld2.Board();
+				if(Spielfeld2.checkFelder(speicher4) == true)
+				{
+					System.out.println("Der Spieler mit dem Zeichen "+CMP1.Zeichen+" hat Gewonnen!");
+					break;
 				}
 			}
-		}while(bol_why == false);
+		}
+		else if(speicher3==2)
+		{
+			while(true)
+			{
+				//Turn Player 2 CMP
+								
+				System.out.println(CMP1.Spielername+" ist am Zug");
+				int zufall = (int)(Math.random()*10);
+				if(zufall > 6)
+				{
+					zufall-= 4;
+				}
+				
+				if((Spielfeld2.checkBelegt(zufall)) == false)
+				{
+					while(Spielfeld2.checkBelegt(zufall) == false)
+					{
+						System.out.println("Feld ist belegt, bitte Spalte eingeben!");	
+						zufall = (int)(Math.random()*10);	
+						if(zufall > 6)
+						{
+							zufall-= 4;
+						}
+					}
+				}
+				
+				CMP1.zug(zufall, Spielfeld2);
+				Spielfeld2.Board();
+				if(Spielfeld2.checkFelder(zufall) == true)
+				{
+					System.out.println("Der Spieler mit dem Zeichen "+CMP1.Zeichen+" hat Gewonnen!");
+					break;
+				}
+				System.out.println(M3.Spielername+", bitte Spalte eingeben!");
+				int speicher4 = Eingabe.nextInt();
+				
+				if((Spielfeld2.checkBelegt(speicher4)) == false)
+				{
+					while(Spielfeld2.checkBelegt(speicher4) == false)
+					{
+						System.out.println("Feld ist belegt, bitte Spalte eingeben!");	
+						speicher4 = Eingabe.nextInt();					
+					}
+				}
+				M3.zug(speicher4, Spielfeld2);
+				Spielfeld2.Board();
+				if(Spielfeld2.checkFelder(speicher4) == true)
+				{
+					System.out.println("Der Spieler mit dem Zeichen "+M3.Zeichen+" hat Gewonnen!");
+					break;
+				}
+			}
+		}
 	}
-	public void auswahl () {
-	//Declaration of the variables
-	String decision;
-	boolean bol_change = true ;
-	do {
-		System.out.println("Bitte wählen Sie aus (1-3): \n 1 = Spieler vs Spieler \r 2 = Spieler vs CPU \r 3 = CPU vs CPU");
-		decision=objScanner.next();
-		
-		if(decision.equals("1"))
+		else if(Wahl == 3)
 		{
-			System.out.println("1");
-			bol_change = true;
+			//Der Computer bekriegt sich selbst
+			CPU CMP2 = new CPU();
+			System.out.println("Name von Spieler 1?");
+			CMP2.Spielername = "Microsoft";
+			CMP2.Zeichen = "X";
+			System.out.println("Der Name lautet:"+CMP2.Spielername);
+			
+			CPU CMP3 = new CPU();
+			CMP3.Spielername = "Linux";
+			CMP3.Zeichen="O";
+			System.out.println("Der CMP3 spielt als:"+CMP3.Spielername);
+			
+			System.out.println("Spiel beginnt!");
+			Board Spielfeld2 = new Board();
+			Spielfeld2.Board();
+			
+			System.out.println("CMP1 X, CMP2 O ");
+			System.out.println("Welcher Spieler soll Anfangen ? 1 oder 2");
+			int speicher3 = Eingabe.nextInt();
+			
+			if(speicher3 == 1)
+			{
+				while(true)
+				{
+					//turn CMP2
+					System.out.println(CMP2.Spielername+" ist am Zug");
+					int zufall = (int)(Math.random()*10);
+					if(zufall > 6)
+					{
+						zufall-= 4;
+					}
+					
+					if((Spielfeld2.checkBelegt(zufall)) == false)
+					{
+						while(Spielfeld2.checkBelegt(zufall) == false)
+						{
+							System.out.println("Feld ist belegt!  Bitte Spalte eingeben!");	
+							zufall = (int)(Math.random()*10);	
+							if(zufall > 6)
+							{
+								zufall-= 4;
+							}
+						}
+					}
+					CMP2.zug(zufall, Spielfeld2);
+					Spielfeld2.Board();
+					if(Spielfeld2.checkFelder(zufall) == true)
+					{
+						System.out.println("Der Spieler mit dem Zeichen "+CMP2.Zeichen+" hat Gewonnen!");
+						break;
+					}
+					//turn CMP3
+					System.out.println(CMP2.Spielername+" ist am Zug");
+					zufall = (int)(Math.random()*10);
+					if(zufall > 6)
+					{
+						zufall-= 4;
+					}
+					
+					if((Spielfeld2.checkBelegt(zufall)) == false)
+					{
+						while(Spielfeld2.checkBelegt(zufall) == false)
+						{
+							System.out.println("Feld ist belegt, bitte Spalte eingeben!");	
+							zufall = (int)(Math.random()*10);	
+							if(zufall > 6)
+							{
+								zufall-= 4;
+							}
+						}
+					}
+					CMP3.zug(zufall, Spielfeld2);
+					Spielfeld2.Board();
+					if(Spielfeld2.checkFelder(zufall) == true)
+					{
+						System.out.println("Der Spieler mit dem Zeichen "+CMP3.Zeichen+" hat Gewonnen!");
+						break;
+					}
+				}
+			}
+			else if(speicher3 == 2)
+			{
+				
+				//turn CMP3
+				while(true)
+				{
+					System.out.println(CMP2.Spielername+" ist am Zug");
+					int zufall = (int)(Math.random()*10);
+					if(zufall > 6)
+					{
+						zufall-= 4;
+					}
+					
+					if((Spielfeld2.checkBelegt(zufall)) == false)
+					{
+						while(Spielfeld2.checkBelegt(zufall) == false)
+						{
+							System.out.println("Feld ist belegt, bitte Spalte eingeben!");	
+							zufall = (int)(Math.random()*10);	
+							if(zufall > 6)
+							{
+								zufall-= 4;
+							}
+						}
+					}
+					CMP3.zug(zufall, Spielfeld2);
+					Spielfeld2.Board();
+					if(Spielfeld2.checkFelder(zufall) == true)
+					{
+						System.out.println("Der Spieler mit dem Zeichen "+CMP3.Zeichen+" hat Gewonnen!");
+						break;
+					}
+					//turn CMP2
+					System.out.println(CMP2.Spielername+" ist am Zug");
+					zufall = (int)(Math.random()*10);
+					if(zufall > 6)
+					{
+						zufall-= 4;
+					}
+					
+					if((Spielfeld2.checkBelegt(zufall)) == false)
+					{
+						while(Spielfeld2.checkBelegt(zufall) == false)
+						{
+							System.out.println("Feld ist belegt!  Bitte Spalte eingeben!");	
+							zufall = (int)(Math.random()*10);	
+							if(zufall > 6)
+							{
+								zufall-= 4;
+							}
+						}
+					}
+					CMP2.zug(zufall, Spielfeld2);
+					Spielfeld2.Board();
+					if(Spielfeld2.checkFelder(zufall) == true)
+					{
+						System.out.println("Der Spieler mit dem Zeichen "+CMP2.Zeichen+" hat Gewonnen!");
+						break;
+					}
+				}
+			}
+			
 		}
-		else if(decision.equals("2"))
-		{
-			System.out.println("2");
-			bol_change = true;
-		}
-		else if(decision.equals("3"))
-		{
-			System.out.println("3");
-			bol_change = true;
-		}
-		else
-		{
-			System.out.println("Falsche Eingabe, nur Zahlen von 1-3 möglich!");
-			bol_change = false;
-		}
-	}while(bol_change == false);
 		
 	}
+
 }
