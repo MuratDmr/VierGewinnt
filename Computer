@@ -1,23 +1,23 @@
 
 public class CPU extends Spieler {
 	
-	//Creates an instance of RandomPlayer and sets the PlayerName to Computer and
-	 //the current Field
-	 
-	public CPU(Board board) {
-		
-		this.playerName = "Computer";
-		
-		this.board = board;
+
+
+	public void zug(int Spalte,  Board Spiel)
+	{
+		for(int i = 5; i >= 0; i--)
+		{
+			if(Spiel.Felder[i][Spalte] != "-")
+			{
+
+			}
+			else
+			{
+				Spiel.Felder[i][Spalte] = this.Zeichen;
+				break;
+			}
+		}
 	}
-
-
-	public void turn() {
-		
-
-	}
-
-	
-	
 
 }
+
