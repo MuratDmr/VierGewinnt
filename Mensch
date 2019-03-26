@@ -1,0 +1,16 @@
+
+import java.util.Scanner;
+
+public class Mensch extends Spieler {
+
+	public void zug(int Spalte, Board Spiel) {
+		for (int i = 5; i >= 0; i--) {
+			if (Spiel.Felder[i][Spalte] != "-") {
+
+			} else {
+				Spiel.Felder[i][Spalte] = this.Zeichen;
+				break;
+			}
+		}
+	}
+}
