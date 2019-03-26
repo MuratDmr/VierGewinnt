@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		Scanner eingabe = new Scanner(System.in);
+		
+		Intro i1 = new Intro();
+		i1.startgame();
+		i1.auswahl();
+		
+		Board b1 = new Board ();
+		b1.initalizeBoard();
+		b1.getFelder();
+		b1.checkFelder();
+		
+		
+		Mensch m1= new Mensch();
+		CPU c1 = new CPU();
+		Spieler s1= m1;
+		Spieler s2=c1;
+		s2.zug(0, b1);
+	}
+
+}
