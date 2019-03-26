@@ -1,0 +1,8 @@
+public abstract class Spieler {
+	
+	public String Spielername;
+	public String Zeichen;
+	public boolean Aktivität;
+	public abstract void zug(int Spalte,  Board Spiel);
+	
+}
